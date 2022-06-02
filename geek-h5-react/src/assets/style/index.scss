@@ -14,6 +14,7 @@ body {
 }
 input {
     border: none;
+    background: none;
     &:focus-visible {
         outline: none;
     }

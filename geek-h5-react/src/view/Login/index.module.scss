@@ -21,7 +21,7 @@
         }
         .input-box {
           position: relative;
-          @include hairline(bottom, #ccc);
+          // @include hairline(bottom, #ccc);
         }
       }
 
@@ -43,6 +43,7 @@
       }
       .disabled {
         background: linear-gradient(315deg, #ff9999, #ffa179);
+        cursor: no-drop;
       }
     }
   }

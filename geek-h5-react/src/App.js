@@ -20,9 +20,9 @@ export default function App() {
     <Router>
       <Suspense fallback={<div>加载中...</div>}>
         <Switch>
-          <Redirect exact from='/' to="/home"></Redirect>
-          <Route path="/home" component={Home}></Route>
-          <Route path="/login" component={Login}></Route>
+          <Redirect exact from='/' to="/home"/>
+          <Route path="/home" component={Home}/>
+          <Route path="/login" component={Login}/>
         </Switch>
       </Suspense>
     </Router>
