@@ -21,17 +21,21 @@ import { isMobile } from '@/utils/regular'
 // redux
 import { useDispatch } from 'react-redux'
 // action
-import { sendValidationCode } from '@/store/action/login'
+import { sendValidationCode, login } from '@/store/action/login'
 
 // UI组件库
 import { Toast } from 'antd-mobile';
+import {useHistory} from "react-router-dom";
 
 export default function Login() {
 
+  // 路由跳转
+  const history = useHistory()
   // redux 方法
   const dispatch = useDispatch()
   // 倒计时时间
   const [time, settime] = useState(0)
+
 
 
   // 点击extra事件
@@ -52,9 +56,12 @@ export default function Login() {
       Toast.success('获取验证码成功', 1)
 
       // 开启倒计时
-      settime(60)
+      let timeId = settime(60)
       setInterval(() => {
-        settime(time => time - 1)
+        settime(time => {
+          if(time === 1) clearInterval(timeId)
+          return time - 1
+        })
       },1000)
     })
     .catch(err => {
@@ -76,6 +83,12 @@ export default function Login() {
     // 提交
     onSubmit(value) {
       console.log(value);
+      dispatch(login(value)).then(res => {
+        // console.log(res);
+        Toast.success('登录成功',1)
+        // 跳转首页
+        history.push('/home')
+      })
     },
     // 校验
     validationSchema: Yup.object({

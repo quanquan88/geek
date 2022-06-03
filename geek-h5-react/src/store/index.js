@@ -14,5 +14,19 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 // reducers
 import reducers from './reducers'
+// 缓存token
+import {getTokenInfo} from "@/utils/storage";
 
-export default createStore(reducers, composeWithDevTools(applyMiddleware(thunk)))
+/*
+* 参数
+*   1. reducer
+*   2. 指定store的初始值
+*   3. 指定中间件
+* */
+export default createStore(
+    reducers,
+    {
+        login: getTokenInfo()
+    },
+    composeWithDevTools(applyMiddleware(thunk))
+)

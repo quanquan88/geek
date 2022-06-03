@@ -7,11 +7,8 @@
  */
 // 合并reducers方法
 import { combineReducers } from "redux";
-
-const user = (preState = '小飞', action) => {
-    return preState
-}
+import login from './login'
 
 export default combineReducers({
-    user
+    login
 })
