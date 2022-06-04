@@ -51,7 +51,7 @@ export default function Login() {
     }
 
     // 请求
-    dispatch(sendValidationCode(mobile)).then(res => {
+    dispatch(sendValidationCode(mobile)).then(() => {
       // console.log(res);
       Toast.success('获取验证码成功', 1)
 
@@ -83,7 +83,7 @@ export default function Login() {
     // 提交
     onSubmit(value) {
       console.log(value);
-      dispatch(login(value)).then(res => {
+      dispatch(login(value)).then(() => {
         // console.log(res);
         Toast.success('登录成功',1)
         // 跳转首页

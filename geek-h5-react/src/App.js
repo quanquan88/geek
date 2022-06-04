@@ -5,26 +5,29 @@
  * @LastEditTime: 2022-05-26 23:15:48
  * @Description: file content
  */
-import React, { Suspense } from 'react'
+import React, {Suspense} from 'react'
 
 // 导入路由
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
+import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
 
 // 首页 React.lazy懒加载
-const Home = React.lazy(() => import('@/view/Home'))
+const Home = React.lazy(() => import('@/view/Layout'))
 // 登录页
 const Login = React.lazy(() => import('@/view/Login'))
 
 export default function App() {
-  return (
-    <Router>
-      <Suspense fallback={<div>加载中...</div>}>
-        <Switch>
-          <Redirect exact from='/' to="/home"/>
-          <Route path="/home" component={Home}/>
-          <Route path="/login" component={Login}/>
-        </Switch>
-      </Suspense>
-    </Router>
-  )
+    return (
+        <Router>
+            <Suspense fallback={<div>加载中...</div>}>
+                <Switch>
+                    {/* 重定向 */}
+                    <Redirect exact from='/' to="/home"/>
+                    {/* 首页 */}
+                    <Route path="/home" component={Home}/>
+                    {/* 登录 */}
+                    <Route path="/login" component={Login}/>
+                </Switch>
+            </Suspense>
+        </Router>
+    )
 }
