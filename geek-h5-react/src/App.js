@@ -14,6 +14,8 @@ import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom
 const Home = React.lazy(() => import('@/view/Layout'))
 // 登录页
 const Login = React.lazy(() => import('@/view/Login'))
+// 编辑个人信息
+const Edit = React.lazy(() => import('@/view/Profile/Edit'))
 
 export default function App() {
     return (
@@ -26,6 +28,8 @@ export default function App() {
                     <Route path="/home" component={Home}/>
                     {/* 登录 */}
                     <Route path="/login" component={Login}/>
+                    {/* 个人信息编辑 */}
+                    <Route path="/profile/edit" component={Edit}/>
                 </Switch>
             </Suspense>
         </Router>

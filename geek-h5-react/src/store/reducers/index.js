@@ -8,7 +8,9 @@
 // 合并reducers方法
 import { combineReducers } from "redux";
 import login from './login'
+import profile from "./profile";
 
 export default combineReducers({
-    login
+    login,
+    profile
 })
