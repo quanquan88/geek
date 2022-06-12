@@ -8,7 +8,11 @@
 import React, {Suspense} from 'react'
 
 // 导入路由
-import {BrowserRouter as Router, Route, Switch, Redirect} from 'react-router-dom'
+import {Router, Route, Switch, Redirect} from 'react-router-dom'
+// 自定义路由权限
+import AuthRoute from "@/components/AuthRoute/AuthRoute";
+// history
+import history from "@/utils/history";
 
 // 首页 React.lazy懒加载
 const Home = React.lazy(() => import('@/view/Layout'))
@@ -16,10 +20,14 @@ const Home = React.lazy(() => import('@/view/Layout'))
 const Login = React.lazy(() => import('@/view/Login'))
 // 编辑个人信息
 const Edit = React.lazy(() => import('@/view/Profile/Edit'))
+// 小智聊天
+const Chat = React.lazy(() => import('@/view/Profile/Chat/Chat'))
+
+
 
 export default function App() {
     return (
-        <Router>
+        <Router history={history}>
             <Suspense fallback={<div>加载中...</div>}>
                 <Switch>
                     {/* 重定向 */}
@@ -28,8 +36,12 @@ export default function App() {
                     <Route path="/home" component={Home}/>
                     {/* 登录 */}
                     <Route path="/login" component={Login}/>
+
+                    {/* 以下是需要登录的组件 */}
                     {/* 个人信息编辑 */}
-                    <Route path="/profile/edit" component={Edit}/>
+                    <AuthRoute path="/profile/edit" component={Edit}/>
+                    {/* 小智聊天 */}
+                    <AuthRoute path="/profile/chat" component={Chat}/>
                 </Switch>
             </Suspense>
         </Router>

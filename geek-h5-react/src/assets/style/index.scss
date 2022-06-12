@@ -42,6 +42,20 @@ button {
     background-color: #fff;
     border: 0;
 }
+textarea {
+    line-height: 6.8vw;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    background-color: transparent;
+    overflow: visible;
+    display: block;
+    resize: none;
+    word-break: break-word;
+    word-wrap: break-word;
+}
 .icon {
     width: 1em; height: 1em;
     vertical-align: -0.15em;

@@ -14,6 +14,8 @@ import styles from './index.module.scss'
 import classNames from "classnames";
 // 路由
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
+// 权限
+import AuthRoute from "@/components/AuthRoute/AuthRoute";
 
 // 组件
 const Home = React.lazy(() => import('@/view/Home'))
@@ -61,7 +63,7 @@ export default function Layout() {
                             <Route path="/home" exact component={Home}/>
                             <Route path="/home/question" component={Question}/>
                             <Route path="/home/video" component={Video}/>
-                            <Route path="/home/profile" component={Profile}/>
+                            <AuthRoute path="/home/profile" component={Profile}/>
                         </Switch>
                     </Suspense>
                 </div>

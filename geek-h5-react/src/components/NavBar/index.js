@@ -14,19 +14,23 @@ import styles from './index.module.scss'
 
 // 解决独立封住的组件获取不到history match loaction问题
 import { useHistory } from 'react-router-dom'
+import classnames from "classnames";
 
 // history match loaction: 这个组件必须是通过路由配置的
-function NavBar({ children, subtitle }) {
+function NavBar({ children, subtitle, onLeftClick, className }) {
     const history = useHistory()
 
     // 点击返回上一层事件
     const back = () => {
-        console.log(history);
-        history.goBack(-1)
+        if(onLeftClick){
+            onLeftClick()
+        }else {
+            history.goBack(-1)
+        }
     }
 
     return (
-        <div className={styles.root}>
+        <div className={classnames(styles.root, className)}>
             {/* 后退按钮 */}
             <div className="left" onClick={back}>
                 <Icon type="iconfanhui" />

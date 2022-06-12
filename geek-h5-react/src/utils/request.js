@@ -8,6 +8,8 @@
 import axios from 'axios'
 import { Toast } from "antd-mobile";
 import {getTokenInfo} from "@/utils/storage";
+// 路由跳转
+import history from "@/utils/history";
 
 // 1. 创建新的 axios 实例
 const http = axios.create({
@@ -28,10 +30,21 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(response => {
   return response.data
 }, err => {
-  if(err.response){
-    Toast.info(err.response.data.message)
-  }else {
+  // 网络问题
+  if(!err.response){
     Toast.info('服务器繁忙，请稍后重试')
+    return Promise.reject(err)
+  }
+  // token 过期
+  if(err.response.status === 401){
+    Toast.info('登录过期', 1)
+    history.push({
+      pathname: '/login',
+      state: {
+        from: history.location.pathname
+      }
+    })
+    return Promise.reject(err)
   }
   return Promise.reject(err)
 })

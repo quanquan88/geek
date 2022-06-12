@@ -9,7 +9,7 @@
 // 请求
 import http from "@/utils/request";
 // 缓存token
-import {setTokenInfo} from "@/utils/storage";
+import {removeTokenInfo, setTokenInfo} from "@/utils/storage";
 
 // 获取验证码
 export const sendValidationCode = (mobile) => {
@@ -36,6 +36,16 @@ const saveToken = (payLoad) => {
     return {
         type: 'login/token',
         payLoad
+    }
+}
+
+// 退出登录
+export const removeToken = () => {
+    return dispatch => {
+        // 清除redux的token
+        dispatch(saveToken({}))
+        // 清除本地的token
+        removeTokenInfo()
     }
 }
 

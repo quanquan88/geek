@@ -25,12 +25,13 @@ import { sendValidationCode, login } from '@/store/action/login'
 
 // UI组件库
 import { Toast } from 'antd-mobile';
-import {useHistory} from "react-router-dom";
+import {useHistory, useLocation} from "react-router-dom";
 
 export default function Login() {
 
   // 路由跳转
   const history = useHistory()
+  const location = useLocation()
   // redux 方法
   const dispatch = useDispatch()
   // 倒计时时间
@@ -82,12 +83,18 @@ export default function Login() {
     },
     // 提交
     onSubmit(value) {
-      console.log(value);
+      console.log(location);
       dispatch(login(value)).then(() => {
         // console.log(res);
         Toast.success('登录成功',1)
-        // 跳转首页
-        history.push('/home')
+
+        if(location.state?.from){
+          history.replace(location.state.from)
+        }else {
+          // 跳转首页
+          history.push('/home')
+        }
+
       })
     },
     // 校验
