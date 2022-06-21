@@ -32,7 +32,7 @@ export const login = (data) => {
 }
 
 // 储存token
-const saveToken = (payLoad) => {
+export const saveToken = (payLoad) => {
     return {
         type: 'login/token',
         payLoad

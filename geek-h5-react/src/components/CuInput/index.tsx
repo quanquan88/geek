@@ -5,18 +5,26 @@
  * @LastEditTime: 2022-05-29 16:44:43
  * @Description: file content
  */
-import React, {useEffect, useRef} from 'react'
+import React, {InputHTMLAttributes, ReactElement, useEffect, useRef} from 'react'
 // 样式
 import styles from './index.module.scss'
 import classnames from "classnames";
 
-export default function CuInput({extra, className, onExtraClick, autoFocus, ...rest}) {
+// 类型
+interface Props extends InputHTMLAttributes<HTMLInputElement> {
+    extra?: string | ReactElement,
+    className?: string,
+    onExtraClick?: () => void,
+    autoFocus?: boolean
+}
 
-    const inputRef = useRef(null)
+export default function CuInput({extra, className, onExtraClick, autoFocus, ...rest}: Props) {
+
+    const inputRef = useRef<HTMLInputElement>(null)
     // 进入页面执行
     useEffect(() => {
         if(autoFocus) {
-            inputRef.current.focus()
+            inputRef.current!.focus()
         }
     }, [])
 

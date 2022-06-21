@@ -22,7 +22,12 @@ const Login = React.lazy(() => import('@/view/Login'))
 const Edit = React.lazy(() => import('@/view/Profile/Edit'))
 // 小智聊天
 const Chat = React.lazy(() => import('@/view/Profile/Chat/Chat'))
+// 用户反馈
+const Feedback = React.lazy(() => import('@/view/Profile/Feedback'))
 
+
+// 404
+const NotFound = React.lazy(() => import('@/view/NotFound/NotFound'))
 
 
 export default function App() {
@@ -42,6 +47,10 @@ export default function App() {
                     <AuthRoute path="/profile/edit" component={Edit}/>
                     {/* 小智聊天 */}
                     <AuthRoute path="/profile/chat" component={Chat}/>
+                    {/* 用户反馈 */}
+                    <AuthRoute path="/profile/feedback" component={Feedback} />
+
+                    <Route component={NotFound}/>
                 </Switch>
             </Suspense>
         </Router>

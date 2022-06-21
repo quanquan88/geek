@@ -9,17 +9,19 @@ import React from 'react'
 // 校验工具
 import PropTypes from 'prop-types'
 
-function Icon({ type, className, ...rest }) {
-  return (
-    <svg {...rest} className={`icon ${className}`} aria-hidden="true">
-        <use xlinkHref={`#${type}`}></use>
-    </svg>
-  )
+// 类型校验
+type Props = {
+    type: string,
+    className?: string,
+    onClick?: () => void
 }
 
-// 校验
-Icon.propTypes = {
-    type: PropTypes.string.isRequired
+function Icon({ type, className, ...rest }: Props) {
+  return (
+    <svg {...rest} className={`icon ${className}`} aria-hidden="true">
+        <use xlinkHref={`#${type}`}/>
+    </svg>
+  )
 }
 
 export default Icon

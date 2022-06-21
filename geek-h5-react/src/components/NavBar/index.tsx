@@ -6,7 +6,7 @@
  * @Description: file content
  */
 
-import React from 'react'
+import React, {ReactElement} from 'react'
 // 图标组件
 import Icon from '@/components/Icon'
 // 样式
@@ -17,7 +17,16 @@ import { useHistory } from 'react-router-dom'
 import classnames from "classnames";
 
 // history match loaction: 这个组件必须是通过路由配置的
-function NavBar({ children, subtitle, onLeftClick, className }) {
+
+// 定义props的类型
+type Props = {
+    children: string | ReactElement,
+    subtitle?: string | ReactElement, // ?:可选的
+    className?: string,
+    onLeftClick?: () => void
+}
+
+function NavBar({ children, subtitle, onLeftClick, className }: Props) {
     const history = useHistory()
 
     // 点击返回上一层事件
@@ -25,7 +34,7 @@ function NavBar({ children, subtitle, onLeftClick, className }) {
         if(onLeftClick){
             onLeftClick()
         }else {
-            history.goBack(-1)
+            history.goBack()
         }
     }
 
