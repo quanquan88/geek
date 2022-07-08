@@ -2,14 +2,14 @@
  * @Author: quan
  * @Date: 2022-07-04 11:53:58
  * @LastEditors: quan
- * @LastEditTime: 2022-07-04 16:57:30
+ * @LastEditTime: 2022-07-08 17:19:13
  * @Description: file content
  */
 
 import { getLocalChannels, setLocalChannels } from "@/utils/channelOp";
 import http from "@/utils/request";
 import { hasToken } from "@/utils/storage";
-import { SAVE_CHANNEL } from "../action_type/home";
+import { SAVE_CHANNEL, SAVE_ALL_CHANNEL } from "../action_type/home";
 
 
 // 获取用户频道
@@ -43,6 +43,45 @@ export const getUserChannels = () => {
 export const savaUserChannel = payload => {
     return {
         type: SAVE_CHANNEL,
+        payload
+    }
+}
+
+// 删除用户频道
+export const removeChannel = channel => {
+    return async (dispathch, getState) => {
+
+        const {userChannels} = getState().home
+        // 1.已登录，发送请求删除
+        if(hasToken()) {
+            // 删除请求
+            await http.delete(`/user/channels/${channel.id}`)
+            // 修改redux的数据
+            dispathch(savaUserChannel(userChannels.filter(item => item.id !== channel.id)))
+        } else {
+            // 2.没有登录 修改本地和redux
+            const result = userChannels.filter(item => item.id !== channel.id);
+            // 修改redux
+            dispathch(savaUserChannel(result));
+            // 修改缓存数据
+            setLocalChannels(result);
+        }
+    }
+}
+
+// 获取全部频道
+export const getAllChannels = () => {
+    return async dispathch => {
+        const res = await http.get('/channels')
+        // console.log(res);
+        dispathch(saveAllChannels(res.data.channels))
+    }
+}
+
+// 保存全部频道
+export const saveAllChannels = payload => {
+    return {
+        type: SAVE_ALL_CHANNEL,
         payload
     }
 }
