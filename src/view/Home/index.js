@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 11:21:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-08 16:06:09
+ * @LastEditTime: 2022-07-11 17:28:42
  * @Description: file content
  */
 import { useEffect, useState } from 'react'
@@ -13,6 +13,7 @@ import Tabs from '@/components/Tabs';
 import Icon from '@/components/Icon';
 import { Drawer } from 'antd-mobile';
 import Channels from './components/Channels';
+import ArticleList from './components/ArtList';
 
 export default function Home() {
 
@@ -42,7 +43,14 @@ export default function Home() {
   // console.log(tabs);
   return (
     <div className={styles.root}>
-        <Tabs tabs={tabs} index={active} onChange={onChange}></Tabs>
+        <Tabs tabs={tabs} index={active} onChange={onChange}>
+          {
+            /* 文章列表 */
+            tabs.map(item => (
+              <ArticleList key={item.id} channelId={item.id} aid={tabs[active].id} ></ArticleList>
+            ))
+          }
+        </Tabs>
         {/* 图标 */}
         <div className='tabs-opration'>
           <Icon type='iconbtn_search' />
@@ -55,7 +63,12 @@ export default function Home() {
           position='left' 
           children={''}
           sidebar={
-            open && <Channels onClose={() => onClose()} tabActiveIndex={active} onChannelClick={onChange} /> 
+            open && 
+            <Channels 
+              onClose={() => onClose()} 
+              tabActiveIndex={active} 
+              onChannelClick={onChange} 
+            /> 
           }
           open={open}
         />

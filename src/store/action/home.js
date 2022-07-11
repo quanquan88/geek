@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 11:53:58
  * @LastEditors: quan
- * @LastEditTime: 2022-07-08 17:19:13
+ * @LastEditTime: 2022-07-11 14:44:48
  * @Description: file content
  */
 
@@ -83,5 +83,31 @@ export const saveAllChannels = payload => {
     return {
         type: SAVE_ALL_CHANNEL,
         payload
+    }
+}
+
+// 添加频道
+export const addChannel = channel => {
+    return async (dispathch, getState) => {
+        // 获取用户频道
+        const { userChannels } = getState().home
+        // 存储的数据
+        const channelsData = [...userChannels, channel] 
+
+        // 1.已登录状态 发起请求
+        if(hasToken()) {
+            await http.patch('/user/channels', {
+                channels: [channel],
+            })
+            
+            dispathch(savaUserChannel(channelsData))
+            
+        } else {
+            // 2.没有登录缓存
+            // 修改redux
+            dispathch(savaUserChannel(channelsData))
+            // 修改缓存
+            setLocalChannels(channelsData)
+        }
     }
 }

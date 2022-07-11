@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 15:51:03
  * @LastEditors: quan
- * @LastEditTime: 2022-07-04 15:58:10
+ * @LastEditTime: 2022-07-11 16:06:06
  * @Description: file content
  */
 import { useEffect, useState, useRef } from 'react'
@@ -13,6 +13,9 @@ import styles from './index.module.scss'
 import React from 'react'
 
 const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
+  // console.log(React.Children.map);
+
+  /** ref */
   const navRef = useRef()
   const lineRef = useRef()
 
@@ -85,11 +88,22 @@ const Tabs = ({ index = 0, tabs = [], children, onChange }) => {
         </div>
 
         <div className="tabs-content">
-          {React.Children.map(children, child => {
-            return React.cloneElement(child, {
-              activeId: tabs[activeIndex]?.id || 0
+          {
+            React.Children.map(children, (child, i) => {
+              return (
+                <div 
+                  className='tabs-content-wrap'
+                  style={{ display: i === index ? 'block' : 'none' }}
+                >
+                  {
+                    React.cloneElement(child, {
+                      activeId: tabs[activeIndex]?.id || 0
+                    })
+                  }
+                </div>
+              )
             })
-          })}
+          }
         </div>
       </div>
     </div>

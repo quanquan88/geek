@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 17:18:06
  * @LastEditors: quan
- * @LastEditTime: 2022-07-08 17:35:16
+ * @LastEditTime: 2022-07-11 14:47:17
  * @Description: file content
  */
 import Icon from '@/components/Icon'
@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
 import classNames from 'classnames'
 import { useState } from 'react'
-import { removeChannel } from '@/store/action/home'
+import { addChannel, removeChannel } from '@/store/action/home'
 import { Toast } from 'antd-mobile'
 
 /**
@@ -40,13 +40,33 @@ const Channels = ({ tabActiveIndex, onClose, onChannelClick }) => {
     onClose();
   }
   // 点击删除频道
-  const removeItem = async row => {
+  const removeItem = async (row, i) => {
     if(userChannels.length <= 4) {
       return Toast.info('至少保留3个')
     }
+
     // console.log(row);
     await dispathch(removeChannel(row));
     Toast.success('删除成功', 1)
+
+    // 判断高标的高亮
+    // 1.删除高亮前的频道
+    if(i < tabActiveIndex) {
+      onChannelClick(tabActiveIndex - 1);
+    }
+    // 2. 删除当前高亮的频道，则高亮显示默认
+    else if (i === tabActiveIndex) {
+      onChannelClick(0);
+    }
+  }
+
+  // 点击添加频道
+  const add = async (channle) => {
+    console.log(channle);
+    // 发起请求
+    await dispathch(addChannel(channle));
+    // 成功
+    Toast.success('添加成功', 1);
   }
 
   return (
@@ -85,7 +105,7 @@ const Channels = ({ tabActiveIndex, onClose, onChannelClick }) => {
                     {item.name}
                     {
                       item.id !== 0 &&
-                      <Icon type="iconbtn_tag_close" onClick={() => removeItem(item)} />
+                      <Icon type="iconbtn_tag_close" onClick={() => removeItem(item, i)} />
                     }
                   </span>
                 )
@@ -105,7 +125,11 @@ const Channels = ({ tabActiveIndex, onClose, onChannelClick }) => {
             {
               recommendChannels.map(item => {
                 return (
-                  <span key={item.id} className="channel-list-item">
+                  <span 
+                    key={item.id} 
+                    className="channel-list-item"
+                    onClick={() => add(item)}
+                  >
                     + {item.name}
                   </span>
                 )
