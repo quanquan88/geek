@@ -2,14 +2,14 @@
  * @Author: quan
  * @Date: 2022-07-04 11:53:58
  * @LastEditors: quan
- * @LastEditTime: 2022-07-11 14:44:48
+ * @LastEditTime: 2022-07-12 15:45:42
  * @Description: file content
  */
 
 import { getLocalChannels, setLocalChannels } from "@/utils/channelOp";
 import http from "@/utils/request";
 import { hasToken } from "@/utils/storage";
-import { SAVE_CHANNEL, SAVE_ALL_CHANNEL } from "../action_type/home";
+import { SAVE_CHANNEL, SAVE_ALL_CHANNEL, SAVE_ART_LIST } from "../action_type/home";
 
 
 // 获取用户频道
@@ -109,5 +109,35 @@ export const addChannel = channel => {
             // 修改缓存
             setLocalChannels(channelsData)
         }
+    }
+}
+
+// 获取文章列表
+export const getArtList = (channelId, timestamp, loadMore = false) => {
+    return async (dispathch) => {
+        const res = await http.get('/articles', {
+            params: {
+                channel_id: channelId,
+                timestamp
+            }
+        })
+        // console.log(res);
+        dispathch(
+            setArtList({
+                channelId,
+                timestamp: res.data.pre_timestamp,
+                list: res.data.results,
+                loadMore
+            })
+        )
+        return res
+    }
+}
+
+// 储存文章列表
+export const setArtList = payload => {
+    return {
+        type: SAVE_ART_LIST,
+        payload
     }
 }
