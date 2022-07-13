@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-11 14:53:22
  * @LastEditors: quan
- * @LastEditTime: 2022-07-12 15:59:41
+ * @LastEditTime: 2022-07-13 15:54:54
  * @Description: file content
  */
 import styles from './index.module.scss'
@@ -11,7 +11,7 @@ import ArticleItem from '../ArtItem'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { getArtList } from '@/store/action/home'
-import { PullToRefresh, InfiniteScroll, Toast } from 'antd-mobile-v5'
+import { PullToRefresh, InfiniteScroll } from 'antd-mobile-v5'
 
 /** 文章列表组件 */
 const ArticleList = ({ channelId, aid }) => {
@@ -61,7 +61,7 @@ const ArticleList = ({ channelId, aid }) => {
       {
         current.list.map(item => (
             <div className='article-item' key={item.art_id}>
-              <ArticleItem data={item} ></ArticleItem>
+              <ArticleItem data={item} channelId={channelId} ></ArticleItem>
             </div>
         ))
         

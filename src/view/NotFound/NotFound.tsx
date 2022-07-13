@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-06-15 21:47:01
  * @LastEditors: quan
- * @LastEditTime: 2022-06-21 23:35:47
+ * @LastEditTime: 2022-07-13 10:42:44
  * @Description: file content
  */
 import {useEffect, useState} from 'react';
@@ -35,7 +35,7 @@ const NotFound = () => {
         if(time === 0) {
             history.push('/home')
         }
-    }, [time])
+    }, [time, history])
 
     return (
         <div>

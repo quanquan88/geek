@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 11:21:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-11 17:28:42
+ * @LastEditTime: 2022-07-13 15:16:38
  * @Description: file content
  */
 import { useEffect, useState } from 'react'
@@ -11,6 +11,7 @@ import { getAllChannels, getUserChannels } from '@/store/action/home';
 import styles from './index.module.scss' // 样式
 import Tabs from '@/components/Tabs';
 import Icon from '@/components/Icon';
+import MoreAction from './components/MoreAction'
 import { Drawer } from 'antd-mobile';
 import Channels from './components/Channels';
 import ArticleList from './components/ArtList';
@@ -72,6 +73,9 @@ export default function Home() {
           }
           open={open}
         />
+
+        {/* 弹框 */}
+        <MoreAction></MoreAction>
     </div>
   )
 }

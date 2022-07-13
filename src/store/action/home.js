@@ -2,14 +2,14 @@
  * @Author: quan
  * @Date: 2022-07-04 11:53:58
  * @LastEditors: quan
- * @LastEditTime: 2022-07-12 15:45:42
+ * @LastEditTime: 2022-07-13 16:56:59
  * @Description: file content
  */
 
 import { getLocalChannels, setLocalChannels } from "@/utils/channelOp";
 import http from "@/utils/request";
 import { hasToken } from "@/utils/storage";
-import { SAVE_CHANNEL, SAVE_ALL_CHANNEL, SAVE_ART_LIST } from "../action_type/home";
+import { SAVE_CHANNEL, SAVE_ALL_CHANNEL, SAVE_ART_LIST, SET_MORE_ACTION } from "../action_type/home";
 
 
 // 获取用户频道
@@ -139,5 +139,59 @@ export const setArtList = payload => {
     return {
         type: SAVE_ART_LIST,
         payload
+    }
+}
+
+// 设置投诉操作
+export const setMoreAction = payload => {
+    return {
+        type: SET_MORE_ACTION,
+        payload
+    }
+}
+
+// 请求不感兴趣
+export const unlinkArticle = (artId) => {
+    return async (dispathch, getState) => {
+        await http.post('/article/dislikes', { target: artId })
+        // 频道id
+        const {channelId} = getState().home.moreAction;
+        // 文章信息
+        const artInfo = getState().home.articles[channelId];
+
+        // 存储文章列表
+        dispathch(
+            setArtList({
+                ...artInfo,
+                channelId,
+                loadMore: false,
+                list: artInfo.list?.filter(item => item.art_id !== artId)
+            })
+        )
+    }
+}
+
+// 请求举报
+export const reportArticle = (artId, reportId) => {
+    return async (dispathch, getState) => {
+        await http.post('/article/reports', {
+            target: artId,
+            type: reportId
+        })
+
+        // 频道id
+        const {channelId} = getState().home.moreAction;
+        // 文章信息
+        const artInfo = getState().home.articles[channelId];
+
+        // 存储文章列表
+        dispathch(
+            setArtList({
+                ...artInfo,
+                channelId,
+                loadMore: false,
+                list: artInfo.list?.filter(item => item.art_id !== artId)
+            })
+        )
     }
 }
