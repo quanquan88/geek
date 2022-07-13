@@ -2,25 +2,32 @@
  * @Author: quan
  * @Date: 2022-06-01 23:16:38
  * @LastEditors: quan
- * @LastEditTime: 2022-06-02 08:45:42
+ * @LastEditTime: 2022-07-13 17:59:09
  * @Description: file content
  */
 
 // 请求
 import http from "@/utils/request";
 // 缓存token
-import {removeTokenInfo, setTokenInfo} from "@/utils/storage";
+import {removeTokenInfo, setTokenInfo, Token} from "@/utils/storage";
+import {Dispatch} from 'redux'
+
+// 登录的类型
+type Login = {
+    mobile: string,
+    code: string
+}
 
 // 获取验证码
-export const sendValidationCode = (mobile) => {
-    return dispatch => {
+export const sendValidationCode = (mobile: string) => {
+    return () => {
         return http.get(`/sms/codes/${mobile}`)
     }
 }
 
 // 登录
-export const login = (data) => {
-    return async dispatch => {
+export const login = (data: Login) => {
+    return async (dispatch: Dispatch) => {
         const res = await http.post('/authorizations', data)
         // console.log(res);
         // 存储到redux
@@ -32,7 +39,7 @@ export const login = (data) => {
 }
 
 // 储存token
-export const saveToken = (payLoad) => {
+export const saveToken = (payLoad: Token) => {
     return {
         type: 'login/token',
         payLoad
@@ -41,7 +48,7 @@ export const saveToken = (payLoad) => {
 
 // 退出登录
 export const removeToken = () => {
-    return dispatch => {
+    return (dispatch: Dispatch) => {
         // 清除redux的token
         dispatch(saveToken({}))
         // 清除本地的token

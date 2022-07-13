@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 11:21:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-04 16:27:10
+ * @LastEditTime: 2022-07-13 17:53:19
  * @Description: file content
  */
 // 用户 Token 的本地缓存键名
@@ -10,7 +10,7 @@
 const TOKEN_KEY = 'geek-itcast-token'
 
 // 定义token对象类型
-type Token = {
+export type Token = {
     token: string,
     refresh_token: string
 }

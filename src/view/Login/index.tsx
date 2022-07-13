@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-26 22:01:01
  * @LastEditors: quan
- * @LastEditTime: 2022-06-02 15:52:47
+ * @LastEditTime: 2022-07-13 17:45:32
  * @Description: file content
  */
 import React, {useState} from 'react'
@@ -26,21 +26,21 @@ import { sendValidationCode, login } from '@/store/action/login'
 // UI组件库
 import { Toast } from 'antd-mobile';
 import {useHistory, useLocation} from "react-router-dom";
-
+ 
 export default function Login() {
 
   // 路由跳转
   const history = useHistory()
-  const location = useLocation()
+  const location = useLocation<{ from: string }>()
   // redux 方法
   const dispatch = useDispatch()
   // 倒计时时间
-  const [time, settime] = useState(0)
+  const [time, settime] = useState<number>(0)
 
 
 
   // 点击extra事件
-  const onExtraClick = () => {
+  const onExtraClick = async () => {
     if(time > 0) return;
     // console.log('点击事件触发');
     // 校验手机号
@@ -52,27 +52,48 @@ export default function Login() {
     }
 
     // 请求
-    dispatch(sendValidationCode(mobile)).then(() => {
-      // console.log(res);
+    // dispatch(sendValidationCode(mobile)).then(() => {
+    //   // console.log(res);
+    //   Toast.success('获取验证码成功', 1)
+
+    //   // 开启倒计时
+    //   settime(60)
+    //   let timeId =setInterval(() => {
+    //     settime(time => {
+    //       if(time === 1) clearInterval(timeId)
+    //       return time - 1
+    //     })
+    //   },1000)
+    // })
+    // .catch((err: any) => {
+    //   console.log(err.response.data.message);
+    //   if(err.response){
+    //     Toast.info(err.response.data.message)
+    //   }else {
+    //     Toast.info('服务器繁忙，请稍后重试')
+    //   }
+    // })
+
+    try {
+      await dispatch(sendValidationCode(mobile))
+
       Toast.success('获取验证码成功', 1)
 
       // 开启倒计时
-      let timeId = settime(60)
-      setInterval(() => {
+      settime(60)
+      let timeId = setInterval(() => {
         settime(time => {
           if(time === 1) clearInterval(timeId)
           return time - 1
         })
       },1000)
-    })
-    .catch(err => {
-      console.log(err.response.data.message);
+    } catch (err: any) {
       if(err.response){
         Toast.info(err.response.data.message)
       }else {
         Toast.info('服务器繁忙，请稍后重试')
       }
-    })
+    }
   }
 
   const formik = useFormik({
@@ -82,20 +103,18 @@ export default function Login() {
       code: '246810'
     },
     // 提交
-    onSubmit(value) {
+    async onSubmit(value) {
       console.log(location);
-      dispatch(login(value)).then(() => {
-        // console.log(res);
-        Toast.success('登录成功',1)
+      await dispatch(login(value))
+      // console.log(res);
+      Toast.success('登录成功',1)
 
-        if(location.state?.from){
-          history.replace(location.state.from)
-        }else {
-          // 跳转首页
-          history.push('/home')
-        }
-
-      })
+      if(location.state?.from){
+        history.replace(location.state.from)
+      }else {
+        // 跳转首页
+        history.push('/home')
+      }
     },
     // 校验
     validationSchema: Yup.object({
