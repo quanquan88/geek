@@ -1,19 +1,27 @@
+/*
+ * @Author: quan
+ * @Date: 2022-07-08 11:02:13
+ * @LastEditors: quan
+ * @LastEditTime: 2022-07-14 16:13:11
+ * @Description: file content
+ */
 import Icon from '@/components/Icon'
 import {Link, useHistory} from 'react-router-dom'
 import styles from './index.module.scss'
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {getUser} from "@/store/action/profile";
+import { RootState } from '@/store';
 
 const Profile = () => {
     const history = useHistory()
     const dispatch = useDispatch()
     // 数据
-    const user = useSelector(state => state.profile.user)
+    const user = useSelector((state: RootState) => state.profile.user)
 
-    useEffect(async () => {
+    useEffect(() => {
         // 请求用户信息
-        await dispatch(getUser())
+        dispatch(getUser())
     }, [dispatch])
 
     return (

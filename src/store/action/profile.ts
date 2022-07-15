@@ -2,24 +2,28 @@
  * @Author: quan
  * @Date: 2022-07-04 11:21:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-04 11:54:52
+ * @LastEditTime: 2022-07-14 15:06:55
  * @Description: file content
  */
 import http from "@/utils/request";
 // 常量
-import {PROFILE_EDIT, PROFILE_USER} from "@/store/action_type/profile";
+import { Dispatch } from "redux";
+import { UserType, ProfileType, ActionType } from "../types";
 
-// 用户信息
-export const savaUser = (payload) => {
+// 储存用户信息函数类型
+type SavaUserType = (payload: UserType) => ActionType;
+
+// 储存用户信息
+export const savaUser: SavaUserType = (payload) => {
     return {
-        type: PROFILE_USER,
+        type: 'profile/user',
         payload
     }
 }
 
 // 获取用户信息
 export const getUser = () => {
-    return async dispatch => {
+    return async (dispatch: Dispatch) => {
         let res = await http.get('/user')
         dispatch(savaUser(res.data))
         return res
@@ -27,16 +31,16 @@ export const getUser = () => {
 }
 
 // 储存用户编辑信息的action
-export const saveProfile = (payload) => {
+export const saveProfile = (payload: ProfileType): ActionType => {
     return {
-        type: PROFILE_EDIT,
+        type: 'profile/profile',
         payload
     }
 }
 
 // 获取用户编辑信息
 export const getProfile = () => {
-    return async dispatch => {
+    return async (dispatch: Dispatch) => {
         let res = await http.get('user/profile')
         // console.log(res.data);
         dispatch(saveProfile(res.data))
@@ -44,9 +48,10 @@ export const getProfile = () => {
     }
 }
 
+type ParProfileType = Partial<ProfileType>
 // 修改用户信息
-export const updateProfile = (data) => {
-    return async dispatch => {
+export const updateProfile = (data: ParProfileType) => {
+    return async (dispatch: any) => {
         await http.patch('/user/profile', data)
         // 重新渲染
         dispatch(getProfile())
@@ -54,8 +59,8 @@ export const updateProfile = (data) => {
 }
 
 // 修改图片
-export const updatePhoto = (fd) => {
-    return async dispatch => {
+export const updatePhoto = (fd: FormData) => {
+    return async (dispatch: any) => {
         await http.patch('/user/photo', fd)
         // 重新渲染
         dispatch(getProfile())

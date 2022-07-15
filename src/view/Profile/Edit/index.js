@@ -98,7 +98,7 @@ const ProfileEdit = () => {
     }
 
     // 文件上传事件
-    const onFileChange = (e) => {
+    const onFileChange = (e ) => {
         // 上传的文件
         const file = e.target.files[0]
         // 创建一个FormData

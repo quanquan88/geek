@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
 import styles from './Chat.module.scss'
-import {useHistory} from "react-router-dom";
 // 全局组件
 import CuInput from "@/components/CuInput";
 import NavBar from "@/components/NavBar";

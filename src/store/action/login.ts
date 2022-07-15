@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-06-01 23:16:38
  * @LastEditors: quan
- * @LastEditTime: 2022-07-13 17:59:09
+ * @LastEditTime: 2022-07-14 09:46:20
  * @Description: file content
  */
 
@@ -50,7 +50,7 @@ export const saveToken = (payLoad: Token) => {
 export const removeToken = () => {
     return (dispatch: Dispatch) => {
         // 清除redux的token
-        dispatch(saveToken({}))
+        dispatch(saveToken({token: '', refresh_token: ''}))
         // 清除本地的token
         removeTokenInfo()
     }

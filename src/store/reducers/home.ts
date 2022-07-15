@@ -2,14 +2,22 @@
  * @Author: quan
  * @Date: 2022-07-04 15:33:42
  * @LastEditors: quan
- * @LastEditTime: 2022-07-13 15:53:46
+ * @LastEditTime: 2022-07-15 09:39:50
  * @Description: file content
  */
 
-import {SAVE_CHANNEL,SAVE_ALL_CHANNEL, SAVE_ART_LIST, SET_MORE_ACTION} from '../action_type/home'
+import { ChannleType, ArticleListType, MoreActionType, HomeActionType } from '../types'
+
+// 初始值类型
+type HomeType = {
+    userChannels: ChannleType[],
+    allChannels: ChannleType[],
+    articles: ArticleListType,
+    moreAction: MoreActionType
+}
 
 // 设置初始值
-const initVal = {
+const initVal: HomeType = {
     userChannels: [], //用户的频道
     allChannels: [], //全部频道
     articles: {}, // all的文章列表
@@ -21,21 +29,21 @@ const initVal = {
     }
 }
 
-export default function reducer(state = initVal, action) {
-    let { type, payload } = action
-    switch (type) {
-        case SAVE_CHANNEL:
+export default function reducer(state = initVal, action: HomeActionType) {
+    // let { type, payload } = action
+    switch (action.type) {
+        case 'home/saveChannel':
             return {
                 ...state,
-                userChannels: payload
+                userChannels: action.payload
             }
-        case SAVE_ALL_CHANNEL:
+        case 'home/saveAllChannels':
             return {
                 ...state,
-                allChannels: payload
+                allChannels: action.payload
             }
-        case SAVE_ART_LIST :
-            const {channelId, timestamp, list, loadMore} = payload // 解析
+        case 'home/saveArticleList' :
+            const {channelId, timestamp, list, loadMore} = action.payload // 解析
             const oldList = state.articles[channelId]?.list // 旧数据
             return {
                 ...state,
@@ -47,10 +55,10 @@ export default function reducer(state = initVal, action) {
                     }
                 }
             }
-        case SET_MORE_ACTION: 
+        case 'home/setMoreAction': 
             return {
                 ...state,
-                moreAction: payload
+                moreAction: action.payload
             }
         default:
             break;

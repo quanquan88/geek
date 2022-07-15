@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-26 22:23:07
  * @LastEditors: quan
- * @LastEditTime: 2022-05-26 22:28:50
+ * @LastEditTime: 2022-07-14 16:10:00
  * @Description: file content
  */
 // redux 
@@ -23,10 +23,15 @@ import {getTokenInfo} from "@/utils/storage";
 *   2. 指定store的初始值
 *   3. 指定中间件
 * */
-export default createStore(
+const store = createStore(
     reducers,
     {
         login: getTokenInfo()
     },
     composeWithDevTools(applyMiddleware(thunk))
 )
+
+// 获取返回值类型
+export type RootState = ReturnType<typeof store.getState>;
+
+export default store
