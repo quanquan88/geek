@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-26 22:23:07
  * @LastEditors: quan
- * @LastEditTime: 2022-07-14 16:10:00
+ * @LastEditTime: 2022-07-15 16:54:38
  * @Description: file content
  */
 // redux 
@@ -16,6 +16,10 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 import reducers from './reducers'
 // 缓存token
 import {getTokenInfo} from "@/utils/storage";
+import { ThunkAction } from 'redux-thunk';
+import { LoginActionType } from './reducers/login';
+import { ActionType } from './types';
+import { HomeActionType } from './types';
 
 /*
 * 参数
@@ -30,8 +34,12 @@ const store = createStore(
     },
     composeWithDevTools(applyMiddleware(thunk))
 )
+// action类型
+type RootActionType = ActionType | LoginActionType | HomeActionType
 
 // 获取返回值类型
 export type RootState = ReturnType<typeof store.getState>;
+// 指定异步返回类型
+export type RootThunkAction = ThunkAction<Promise<any>, RootState, unknown, RootActionType>;
 
 export default store

@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-06-01 23:16:38
  * @LastEditors: quan
- * @LastEditTime: 2022-07-14 09:46:20
+ * @LastEditTime: 2022-07-15 10:12:28
  * @Description: file content
  */
 
@@ -11,6 +11,7 @@ import http from "@/utils/request";
 // 缓存token
 import {removeTokenInfo, setTokenInfo, Token} from "@/utils/storage";
 import {Dispatch} from 'redux'
+import { LoginActionType } from "../reducers/login";
 
 // 登录的类型
 type Login = {
@@ -39,7 +40,7 @@ export const login = (data: Login) => {
 }
 
 // 储存token
-export const saveToken = (payLoad: Token) => {
+export const saveToken = (payLoad: Token): LoginActionType => {
     return {
         type: 'login/token',
         payLoad

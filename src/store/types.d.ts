@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-14 14:20:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-15 09:43:19
+ * @LastEditTime: 2022-07-15 14:28:27
  * @Description: file content
  */
 // user类型
@@ -36,7 +36,7 @@ export type ActionType = {
 
 // 频道类型
 export type ChannleType = {
-    id: string,
+    id: number,
     name: string
 }
 // 投诉类型

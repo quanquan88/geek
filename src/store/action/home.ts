@@ -2,19 +2,21 @@
  * @Author: quan
  * @Date: 2022-07-04 11:53:58
  * @LastEditors: quan
- * @LastEditTime: 2022-07-13 16:56:59
+ * @LastEditTime: 2022-07-15 16:44:11
  * @Description: file content
  */
 
 import { getLocalChannels, setLocalChannels } from "@/utils/channelOp";
 import http from "@/utils/request";
 import { hasToken } from "@/utils/storage";
-import { SAVE_CHANNEL, SAVE_ALL_CHANNEL, SAVE_ART_LIST, SET_MORE_ACTION } from "../action_type/home";
+import {ArticleType, ChannleType, HomeActionType, MoreActionType} from '@/store/types'
+import { RootThunkAction } from "@/store";
+import { Dispatch } from "redux";
 
 
 // 获取用户频道
-export const getUserChannels = () => {
-    return async dispathch => {
+export const getUserChannels = (): RootThunkAction => {
+    return async (dispathch) => {
         // 1.判断用户是否登录
         if(hasToken()) {
             const res = await http.get('/user/channels')
@@ -40,15 +42,15 @@ export const getUserChannels = () => {
 }
 
 // 存储频道的action
-export const savaUserChannel = payload => {
+export const savaUserChannel = (payload: ChannleType[]): HomeActionType => {
     return {
-        type: SAVE_CHANNEL,
+        type: 'home/saveChannel',
         payload
     }
 }
 
 // 删除用户频道
-export const removeChannel = channel => {
+export const removeChannel = (channel: ChannleType): RootThunkAction => {
     return async (dispathch, getState) => {
 
         const {userChannels} = getState().home
@@ -70,8 +72,8 @@ export const removeChannel = channel => {
 }
 
 // 获取全部频道
-export const getAllChannels = () => {
-    return async dispathch => {
+export const getAllChannels = (): RootThunkAction => {
+    return async (dispathch) => {
         const res = await http.get('/channels')
         // console.log(res);
         dispathch(saveAllChannels(res.data.channels))
@@ -79,15 +81,15 @@ export const getAllChannels = () => {
 }
 
 // 保存全部频道
-export const saveAllChannels = payload => {
+export const saveAllChannels = (payload: ChannleType[]): HomeActionType => {
     return {
-        type: SAVE_ALL_CHANNEL,
+        type: 'home/saveAllChannels',
         payload
     }
 }
 
 // 添加频道
-export const addChannel = channel => {
+export const addChannel = (channel: ChannleType): RootThunkAction => {
     return async (dispathch, getState) => {
         // 获取用户频道
         const { userChannels } = getState().home
@@ -113,8 +115,8 @@ export const addChannel = channel => {
 }
 
 // 获取文章列表
-export const getArtList = (channelId, timestamp, loadMore = false) => {
-    return async (dispathch) => {
+export const getArtList = (channelId: number, timestamp: string, loadMore: boolean = false) => {
+    return async (dispathch: Dispatch) => {
         const res = await http.get('/articles', {
             params: {
                 channel_id: channelId,
@@ -130,28 +132,35 @@ export const getArtList = (channelId, timestamp, loadMore = false) => {
                 loadMore
             })
         )
-        return res
+        // return res
     }
 }
 
+type SetArtListType = {
+    channelId: number,
+    timestamp: string,
+    list: ArticleType[],
+    loadMore: boolean
+}
+
 // 储存文章列表
-export const setArtList = payload => {
+export const setArtList = (payload: SetArtListType): HomeActionType => {
     return {
-        type: SAVE_ART_LIST,
+        type: 'home/saveArticleList',
         payload
     }
 }
 
 // 设置投诉操作
-export const setMoreAction = payload => {
+export const setMoreAction = (payload: MoreActionType): HomeActionType => {
     return {
-        type: SET_MORE_ACTION,
+        type: 'home/setMoreAction',
         payload
     }
 }
 
 // 请求不感兴趣
-export const unlinkArticle = (artId) => {
+export const unlinkArticle = (artId: string): RootThunkAction => {
     return async (dispathch, getState) => {
         await http.post('/article/dislikes', { target: artId })
         // 频道id
@@ -172,7 +181,7 @@ export const unlinkArticle = (artId) => {
 }
 
 // 请求举报
-export const reportArticle = (artId, reportId) => {
+export const reportArticle = (artId: string, reportId: number): RootThunkAction => {
     return async (dispathch, getState) => {
         await http.post('/article/reports', {
             target: artId,

@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-29 16:28:16
  * @LastEditors: quan
- * @LastEditTime: 2022-05-29 16:44:43
+ * @LastEditTime: 2022-07-15 15:57:22
  * @Description: file content
  */
 import React, {InputHTMLAttributes, ReactElement, useEffect, useRef} from 'react'
@@ -26,7 +26,7 @@ export default function CuInput({extra, className, onExtraClick, autoFocus, ...r
         if(autoFocus) {
             inputRef.current!.focus()
         }
-    }, [])
+    }, [autoFocus])
 
     return (
         <div className={styles.root}>

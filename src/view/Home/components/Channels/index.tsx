@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 17:18:06
  * @LastEditors: quan
- * @LastEditTime: 2022-07-11 14:47:17
+ * @LastEditTime: 2022-07-15 16:48:59
  * @Description: file content
  */
 import Icon from '@/components/Icon'
@@ -12,19 +12,26 @@ import classNames from 'classnames'
 import { useState } from 'react'
 import { addChannel, removeChannel } from '@/store/action/home'
 import { Toast } from 'antd-mobile'
+import { RootState } from '@/store'
+import { ChannleType } from '@/store/types'
 
+type ChannelsPropsType = {
+  tabActiveIndex: number,
+  onClose: () => void,
+  onChannelClick: (index: number) => void
+}
 /**
  * 频道管理组件
  * @param {Number} props.tabActiveIndex 用户选中的频道的索引
  * @param {Function} props.onClose 关闭频道管理抽屉时的回调函数
  * @param {Function} props.onChannelClick 当点击频道列表中的某个频道时的会带哦函数
  */
-const Channels = ({ tabActiveIndex, onClose, onChannelClick }) => {
+const Channels = ({ tabActiveIndex, onClose, onChannelClick }: ChannelsPropsType) => {
 
   const dispathch =  useDispatch()
-  const userChannels = useSelector(state => state.home.userChannels); // 获取频道
+  const userChannels = useSelector((state: RootState) => state.home.userChannels); // 获取频道
   // 推荐频道
-  const recommendChannels = useSelector(state => {
+  const recommendChannels = useSelector((state: RootState) => {
     const {userChannels, allChannels} = state.home
 
     return allChannels.filter(item => {
@@ -34,13 +41,13 @@ const Channels = ({ tabActiveIndex, onClose, onChannelClick }) => {
   const [editing, setEditing] = useState(false); // 是否编辑状态
 
   // 点击频道触发
-  const handleChannel = (i) => {
+  const handleChannel = (i: number) => {
     if(editing) return
     onChannelClick(i);
     onClose();
   }
   // 点击删除频道
-  const removeItem = async (row, i) => {
+  const removeItem = async (row: ChannleType, i: number) => {
     if(userChannels.length <= 4) {
       return Toast.info('至少保留3个')
     }
@@ -61,7 +68,7 @@ const Channels = ({ tabActiveIndex, onClose, onChannelClick }) => {
   }
 
   // 点击添加频道
-  const add = async (channle) => {
+  const add = async (channle: ChannleType) => {
     console.log(channle);
     // 发起请求
     await dispathch(addChannel(channle));

@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 11:21:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-13 15:16:38
+ * @LastEditTime: 2022-07-15 17:53:18
  * @Description: file content
  */
 import { useEffect, useState } from 'react'
@@ -15,12 +15,15 @@ import MoreAction from './components/MoreAction'
 import { Drawer } from 'antd-mobile';
 import Channels from './components/Channels';
 import ArticleList from './components/ArtList';
+import { RootState } from '@/store';
+import { useHistory } from 'react-router-dom';
 
 export default function Home() {
-
+  
+  const history = useHistory(); // history
 	const dispatch = useDispatch(); // dispatch
-  const [open, setOpen] = useState(false); // 频道抽屉状态
-  const [active, setActive] = useState(0); // 高亮下标 
+  const [open, setOpen] = useState<boolean>(false); // 频道抽屉状态
+  const [active, setActive] = useState<number>(0); // 高亮下标 
 
   // 点击关闭抽屉事件
   const onClose = () => {
@@ -28,7 +31,7 @@ export default function Home() {
   }
 
   // 点击tabs触发
-  const onChange = index => {
+  const onChange = (index: number) => {
     // console.log(index);
     setActive(index)
   }
@@ -40,7 +43,7 @@ export default function Home() {
     dispatch(getAllChannels());
 	}, [dispatch])
 
-  const tabs = useSelector(state => state.home.userChannels)
+  const tabs = useSelector((state: RootState) => state.home.userChannels)
   // console.log(tabs);
   return (
     <div className={styles.root}>
@@ -54,7 +57,7 @@ export default function Home() {
         </Tabs>
         {/* 图标 */}
         <div className='tabs-opration'>
-          <Icon type='iconbtn_search' />
+          <Icon type='iconbtn_search' onClick={() => history.push('/search')} />
           <Icon type='iconbtn_channel' onClick={() => setOpen(true)} />
         </div>
 
@@ -62,7 +65,6 @@ export default function Home() {
         <Drawer 
           className='my-drawer'
           position='left' 
-          children={''}
           sidebar={
             open && 
             <Channels 
@@ -72,7 +74,7 @@ export default function Home() {
             /> 
           }
           open={open}
-        />
+        ></Drawer>
 
         {/* 弹框 */}
         <MoreAction></MoreAction>

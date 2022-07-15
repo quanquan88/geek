@@ -2,12 +2,13 @@
  * @Author: quan
  * @Date: 2022-07-04 11:21:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-14 15:06:55
+ * @LastEditTime: 2022-07-15 15:40:01
  * @Description: file content
  */
 import http from "@/utils/request";
 // 常量
 import { Dispatch } from "redux";
+import { RootThunkAction } from "..";
 import { UserType, ProfileType, ActionType } from "../types";
 
 // 储存用户信息函数类型
@@ -50,8 +51,8 @@ export const getProfile = () => {
 
 type ParProfileType = Partial<ProfileType>
 // 修改用户信息
-export const updateProfile = (data: ParProfileType) => {
-    return async (dispatch: any) => {
+export const updateProfile = (data: ParProfileType): RootThunkAction => {
+    return async (dispatch) => {
         await http.patch('/user/profile', data)
         // 重新渲染
         dispatch(getProfile())
@@ -59,8 +60,8 @@ export const updateProfile = (data: ParProfileType) => {
 }
 
 // 修改图片
-export const updatePhoto = (fd: FormData) => {
-    return async (dispatch: any) => {
+export const updatePhoto = (fd: FormData): RootThunkAction => {
+    return async (dispatch) => {
         await http.patch('/user/photo', fd)
         // 重新渲染
         dispatch(getProfile())

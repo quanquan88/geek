@@ -78,7 +78,7 @@ const Chat = () => {
             // 组件销毁时关闭websocket
             socket.close()
         }
-    }, [])
+    }, [msgList])
 
     // 副作用
     useEffect(() => {
