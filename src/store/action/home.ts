@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-04 11:53:58
  * @LastEditors: quan
- * @LastEditTime: 2022-07-15 16:44:11
+ * @LastEditTime: 2022-07-18 10:17:17
  * @Description: file content
  */
 
@@ -132,7 +132,7 @@ export const getArtList = (channelId: number, timestamp: string, loadMore: boole
                 loadMore
             })
         )
-        // return res
+        return res
     }
 }
 

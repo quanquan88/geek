@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-14 14:20:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-15 14:28:27
+ * @LastEditTime: 2022-07-18 10:47:48
  * @Description: file content
  */
 // user类型
@@ -83,4 +83,16 @@ export type HomeActionType = {
 } | {
     type: 'home/setMoreAction',
     payload: MoreActionType
+}
+
+
+// 搜索初始类型
+type SearchInitType = {
+    suggertions: string[]
+}
+
+// 搜索页的action
+type SearchActionType = {
+    type: 'search/setSuggestions',
+    payload: string[]
 }
