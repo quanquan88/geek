@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-14 14:20:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 14:15:22
+ * @LastEditTime: 2022-07-22 17:26:39
  * @Description: file content
  */
 // user类型
@@ -87,14 +87,14 @@ export type HomeActionType = {
 
 
 // 搜索初始类型
-type SearchInitType = {
+export type SearchInitType = {
     suggertions: string[],
     histories: string[],
     results: ArticleType[]
 }
 
 // 搜索页的action
-type SearchActionType = {
+export type SearchActionType = {
     type: 'search/setSuggestions',
     payload: string[]
 } | {
@@ -107,4 +107,32 @@ type SearchActionType = {
 } | {
     type: 'search/saveSearchResult',
     payload: ArticleType[]
+}
+
+
+// 文章详情类型
+export type ArtDetailsType = {
+    art_id: string,
+    attitude: number,
+    aut_id: string,
+    aut_name: string,
+    aut_photo: string,
+    comm_count: number,
+    content: string,
+    is_collected: boolean,
+    is_followed: boolean,
+    like_count: number,
+    pubdate: string,
+    read_count: number,
+    title: string
+}
+// 文章详情初始类型
+export type ArticleInitType = {
+    isLoading: boolean,
+    info: ArtDetailsType
+}
+// 文章action类型
+export type ArtActionType = {
+    type: 'article/saveArticleDetails',
+    payload: ArtDetailsType
 }

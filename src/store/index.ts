@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-26 22:23:07
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 11:49:41
+ * @LastEditTime: 2022-07-22 17:27:15
  * @Description: file content
  */
 // redux 
@@ -18,7 +18,7 @@ import reducers from './reducers'
 import {getTokenInfo} from "@/utils/storage";
 import { ThunkAction } from 'redux-thunk';
 import { LoginActionType } from './reducers/login';
-import { ActionType, HomeActionType, SearchActionType } from './types';
+import { ActionType, HomeActionType, SearchActionType, ArtActionType } from './types';
 import { getLocalHistories } from '@/utils/storage/searchHistory';
 
 /*
@@ -40,7 +40,7 @@ const store = createStore(
     composeWithDevTools(applyMiddleware(thunk))
 )
 // action类型
-type RootActionType = ActionType | LoginActionType | HomeActionType | SearchActionType;
+type RootActionType = ActionType | LoginActionType | HomeActionType | SearchActionType | ArtActionType;
 
 // 获取返回值类型
 export type RootState = ReturnType<typeof store.getState>;

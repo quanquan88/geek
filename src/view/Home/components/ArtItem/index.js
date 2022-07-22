@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-11 16:22:06
  * @LastEditors: quan
- * @LastEditTime: 2022-07-13 15:53:36
+ * @LastEditTime: 2022-07-22 16:31:53
  * @Description: file content
  */
 import classnames from 'classnames'
@@ -17,6 +17,7 @@ import 'dayjs/locale/zh-cn';
 import { hasToken } from '@/utils/storage'
 import { useDispatch } from 'react-redux'
 import { setMoreAction } from '@/store/action/home'
+import { useHistory } from 'react-router-dom'
 dayjs.extend(relativeTime) // 插件扩展
 dayjs.locale('zh-cn')
 
@@ -24,6 +25,7 @@ const ArticleItem = ({ channelId, data }) => {
 
 	const { cover: { type, images } } = data; // 数据
 	const dispatch = useDispatch(); // dispatch
+	const history = useHistory();
 
 	// 点击更多
 	const handleMore = () => {
@@ -35,7 +37,7 @@ const ArticleItem = ({ channelId, data }) => {
 	}
 
 	return (
-		<div className={styles.root}>
+		<div className={styles.root} onClick={() => history.push(`/article/${data.art_id}`)}>
 			<div
 				className={classnames(
 					'article-content',

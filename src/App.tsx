@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-24 22:35:44
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 10:53:36
+ * @LastEditTime: 2022-07-22 16:58:21
  * @Description: file content
  */
 import React, {Suspense} from 'react'
@@ -26,6 +26,7 @@ const Chat = React.lazy(() => import('@/view/Profile/Chat/Chat'))
 const Feedback = React.lazy(() => import('@/view/Profile/Feedback'))
 const Search = React.lazy(() => import('@/view/Search')); // 搜索
 const SearchResult = React.lazy(() => import('@/view/Search/Result')); // 搜索
+const ArticleDetails = React.lazy(() => import('@/view/Article')); // 搜索
 
 
 // 404
@@ -45,6 +46,7 @@ export default function App() {
                     <Route path="/login" component={Login}/>
                     <Route path="/search" exact component={Search}/>
                     <Route path="/search/result" exact component={SearchResult}/>
+                    <Route path="/article/:id" component={ArticleDetails}/>
 
                     {/* 以下是需要登录的组件 */}
                     {/* 个人信息编辑 */}

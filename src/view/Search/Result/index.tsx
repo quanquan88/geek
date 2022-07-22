@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-22 10:45:21
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 16:27:24
+ * @LastEditTime: 2022-07-22 16:34:40
  * @Description: file content
  */
 
@@ -26,7 +26,7 @@ const SearchResult = () => {
   const results: ArticleType[] = useSelector(
     (state: RootState) => state.search.results
   );
-  const [hasMore] = useState<boolean>(true); // 是否还有更多内容
+  const [hasMore, setHasMore] = useState<boolean>(true); // 是否还有更多内容
 	const [loading, setLoading] = useState<boolean>(false); // 加载状态
 
   // 加载更多的回调函数
@@ -44,6 +44,10 @@ const SearchResult = () => {
 			// 4.停止加载
 			setLoading(false);
 		}
+
+    if(page >= 5) {
+      setHasMore(false);
+    }
   }
 
   // useEffect(() => {
