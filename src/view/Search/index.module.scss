@@ -79,16 +79,25 @@
           display: inline-block;
           height: 16px;
           margin-bottom: 16px;
+
+          .divider {
+            display: inline-block;
+            height: 16px;
+            width: 1px;
+            margin: 0 16px;
+            vertical-align: middle;
+            background-color: #bfc2cb;
+          }
+
+          &:last-child {
+            .divider {
+              display: none;
+            }
+          }
         }
 
-        .divider {
-          display: inline-block;
-          height: 16px;
-          width: 1px;
-          margin: 0 16px;
-          vertical-align: middle;
-          background-color: #bfc2cb;
-        }
+        
+        
       }
     }
 

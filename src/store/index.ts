@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-26 22:23:07
  * @LastEditors: quan
- * @LastEditTime: 2022-07-18 10:52:27
+ * @LastEditTime: 2022-07-22 11:49:41
  * @Description: file content
  */
 // redux 
@@ -19,6 +19,7 @@ import {getTokenInfo} from "@/utils/storage";
 import { ThunkAction } from 'redux-thunk';
 import { LoginActionType } from './reducers/login';
 import { ActionType, HomeActionType, SearchActionType } from './types';
+import { getLocalHistories } from '@/utils/storage/searchHistory';
 
 /*
 * 参数
@@ -29,7 +30,12 @@ import { ActionType, HomeActionType, SearchActionType } from './types';
 const store = createStore(
     reducers,
     {
-        login: getTokenInfo()
+        login: getTokenInfo(),
+        search: {
+            suggertions: [],
+            histories: getLocalHistories(),
+            results: []
+        }
     },
     composeWithDevTools(applyMiddleware(thunk))
 )
