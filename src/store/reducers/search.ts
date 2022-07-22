@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-18 10:36:25
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 14:18:27
+ * @LastEditTime: 2022-07-22 15:30:41
  * @Description: file content
  */
 
@@ -42,7 +42,7 @@ export default function reducer(state = initVal, action: SearchActionType) {
     if(action.type === 'search/saveSearchResult') {
         return {
             ...state,
-            results: action.payload
+            results: [...state.results, ...action.payload]
         }
     }
     return state;

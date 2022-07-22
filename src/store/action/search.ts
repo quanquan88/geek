@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-18 11:47:52
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 14:27:12
+ * @LastEditTime: 2022-07-22 15:51:11
  * @Description: file content
  */
 import http from "@/utils/request";
@@ -105,6 +105,8 @@ export const getSearchResult = (keyword: string, page: number): RootThunkAction 
 
         // 存储redux
         dispatch(saveSearchResult(res.data.results));
+
+        return res
 
         
     }
