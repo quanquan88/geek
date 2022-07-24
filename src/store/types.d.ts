@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-14 14:20:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 17:26:39
+ * @LastEditTime: 2022-07-23 21:29:54
  * @Description: file content
  */
 // user类型
@@ -129,10 +129,35 @@ export type ArtDetailsType = {
 // 文章详情初始类型
 export type ArticleInitType = {
     isLoading: boolean,
-    info: ArtDetailsType
+    info: ArtDetailsType,
+    comments: CommentsListType
 }
 // 文章action类型
 export type ArtActionType = {
     type: 'article/saveArticleDetails',
     payload: ArtDetailsType
+} | {
+    type: 'article/saveComment',
+    payload: CommentsListType
 }
+// 评论消息类型
+type CommentType = {
+    aut_id: string;
+    aut_name: string;
+    aut_photo: string;
+    com_id: string;
+    content: string;
+    is_followed: boolean;
+    is_liking: boolean;
+    like_count: number;
+    pubdate: string;
+    reply_count: number;
+}
+// 评论列表类型
+type CommentsListType = {
+    end_id: string,
+    last_id: string,
+    total_count: number,
+    results: CommentType[]
+}
+

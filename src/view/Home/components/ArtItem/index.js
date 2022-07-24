@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-11 16:22:06
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 16:31:53
+ * @LastEditTime: 2022-07-23 22:37:09
  * @Description: file content
  */
 import classnames from 'classnames'
@@ -11,15 +11,10 @@ import Img from '@/components/Img'
 import styles from './index.module.scss'
 
 import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime'
-// 指定语言
-import 'dayjs/locale/zh-cn';
 import { hasToken } from '@/utils/storage'
 import { useDispatch } from 'react-redux'
 import { setMoreAction } from '@/store/action/home'
 import { useHistory } from 'react-router-dom'
-dayjs.extend(relativeTime) // 插件扩展
-dayjs.locale('zh-cn')
 
 const ArticleItem = ({ channelId, data }) => {
 
