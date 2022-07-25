@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-28 14:57:05
  * @LastEditors: quan
- * @LastEditTime: 2022-05-28 23:47:11
+ * @LastEditTime: 2022-07-24 22:04:18
  * @Description: file content
  */
 
@@ -38,8 +38,15 @@ function NavBar({ children, subtitle, onLeftClick, className }: Props) {
         }
     }
 
+    // 双击回到顶部
+    const hhh = () => {
+        console.log("双击");
+        
+        // window.scrollTo(0, 0);
+    }
+
     return (
-        <div className={classnames(styles.root, className)}>
+        <div className={classnames(styles.root, className)} onDoubleClick={hhh}>
             {/* 后退按钮 */}
             <div className="left" onClick={back}>
                 <Icon type="iconfanhui" />

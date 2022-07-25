@@ -2,13 +2,13 @@
  * @Author: quan
  * @Date: 2022-07-22 16:38:17
  * @LastEditors: quan
- * @LastEditTime: 2022-07-23 22:26:16
+ * @LastEditTime: 2022-07-24 21:52:05
  * @Description: file content
  */
 import Icon from "@/components/Icon";
 import NavBar from "@/components/NavBar";
 import { RootState } from "@/store";
-import { getArticleDetails, getCommentList } from "@/store/action/article";
+import { getArticleDetails, getCommentList, getMoreCommentList } from "@/store/action/article";
 import { useEffect, useRef, useState } from "react";
 import ContentLoader from "react-content-loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,8 @@ import DOMPurify from 'dompurify';
 import throttle from 'lodash/throttle'; // 节流
 import NoComment from './components/NoComment'
 import CommentItem from './components/CommentItem'
+import { InfiniteScroll } from 'antd-mobile-v5'
+import CommentFooter from './components/CommentFooter'
 
 // params参数类型
 type ParamsTyps = {
@@ -32,7 +34,9 @@ const Article = () => {
 	const artDetails = useSelector((state: RootState) => state.article.info); // 文章详情
   const [isShowNavAuthor, setShowNavAuthor] = useState<boolean>(false); // 是否显示头部信息
   const authorRef = useRef<HTMLDivElement>(null); // 元素
-  const comments = useSelector((state: RootState) => state.article.comments);
+  const commentRef = useRef<HTMLDivElement>(null); // 评论区顶部元素
+  const comments = useSelector((state: RootState) => state.article.comments); // 评论列表
+  const hasMore = comments.last_id !== comments.end_id; // 是否还有更多内容
 
 	useEffect(() => {
 		// 请求
@@ -59,6 +63,19 @@ const Article = () => {
   useEffect(() => {
     dispatch(getCommentList(params.id));
   }, [dispatch, params.id])
+
+  // 加载更多的回调函数
+  const loadMore = async () => {
+    // 请求加载更多
+    await dispatch(getMoreCommentList(params.id, comments.last_id))
+  }
+
+  // 点击去评论的回调
+  const goComment = () => {
+    // 获取元素距离顶部的高度
+    const top = commentRef.current!.offsetTop
+    window.scrollTo(0, top)
+  }
 
   return (
     <div className={styles.root}>
@@ -141,7 +158,7 @@ const Article = () => {
 
               <div className="comment">
                 {/* 评论总览信息 */}
-                <div className="comment-header">
+                <div className="comment-header" ref={commentRef}>
                   <span>全部评论（{artDetails.comm_count}）</span>
                   <span>{artDetails.like_count} 点赞</span>
                 </div>
@@ -162,6 +179,12 @@ const Article = () => {
                     </div>
                   )
                 }
+
+                {/* 操作 */}
+                <CommentFooter goComment={goComment}></CommentFooter>
+
+                {/* 加载更多 */}
+                <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
                 
               </div>
             </div>

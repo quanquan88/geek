@@ -3,7 +3,7 @@
 * @Author: quan
 * @Date: 2022-07-22 16:48:51
  * @LastEditors: quan
- * @LastEditTime: 2022-07-23 21:30:42
+ * @LastEditTime: 2022-07-24 15:41:06
 * @Description: file content
 */
 
@@ -28,6 +28,15 @@ export default function reducers(state = initState, action: ArtActionType) {
 		return {
 			...state,
 			comments: action.payload
+		}
+	}
+	if(action.type === 'article/saveMoreComment') {
+		return {
+			...state,
+			comments: {
+				...action.payload,
+				results: [...state.comments.results, ...action.payload.results]
+			}
 		}
 	}
 	return state

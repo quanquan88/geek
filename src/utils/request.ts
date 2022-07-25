@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-06-01 23:14:59
  * @LastEditors: quan
- * @LastEditTime: 2022-06-02 17:51:40
+ * @LastEditTime: 2022-07-24 20:55:19
  * @Description: file content
  */
 import axios, {AxiosError} from 'axios'
@@ -69,7 +69,7 @@ http.interceptors.response.use(response => {
             // token过期
             if(err.response.status === 500 && err.response.data.message === "refresh_token失效") {
                 Toast.info('登录过期', 1)
-                history.push({
+                history.replace({
                     pathname: '/login',
                     state: {
                         from: history.location.pathname
