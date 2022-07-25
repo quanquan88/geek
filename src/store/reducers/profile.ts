@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-08 11:02:13
  * @LastEditors: quan
- * @LastEditTime: 2022-07-14 15:11:13
+ * @LastEditTime: 2022-07-25 16:13:45
  * @Description: file content
  */
 
@@ -10,7 +10,7 @@ import {UserType, ProfileType, ActionType} from '@/store/types'
 
 // 初始值类型
 export interface ProfileInitType {
-    user: UserType,
+    user: UserType
     profile: ProfileType
 }
 

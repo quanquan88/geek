@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-22 16:38:17
  * @LastEditors: quan
- * @LastEditTime: 2022-07-24 21:52:05
+ * @LastEditTime: 2022-07-25 17:32:51
  * @Description: file content
  */
 import Icon from "@/components/Icon";
@@ -21,6 +21,7 @@ import NoComment from './components/NoComment'
 import CommentItem from './components/CommentItem'
 import { InfiniteScroll } from 'antd-mobile-v5'
 import CommentFooter from './components/CommentFooter'
+import Sticky from '@/components/Sticky'
 
 // params参数类型
 type ParamsTyps = {
@@ -47,9 +48,9 @@ const Article = () => {
   useEffect(() => {
     const onScroll = throttle((): void => {
       // 获取位置参数
-      const rect: DOMRect = authorRef.current?.getBoundingClientRect()!;
+      const rect = authorRef.current?.getBoundingClientRect();
       // 判断
-      rect?.top <= 10 ? setShowNavAuthor(true) : setShowNavAuthor(false);
+      (rect && rect?.top <= 10) ? setShowNavAuthor(true) : setShowNavAuthor(false);
     }, 500)
     
     document.addEventListener('scroll', onScroll);
@@ -158,10 +159,12 @@ const Article = () => {
 
               <div className="comment">
                 {/* 评论总览信息 */}
-                <div className="comment-header" ref={commentRef}>
-                  <span>全部评论（{artDetails.comm_count}）</span>
-                  <span>{artDetails.like_count} 点赞</span>
-                </div>
+                <Sticky offset={46}>
+                  <div className="comment-header" ref={commentRef}>
+                    <span>全部评论（{artDetails.comm_count}）</span>
+                    <span>{artDetails.like_count} 点赞</span>
+                  </div>
+                </Sticky>
                 
                 {
                   // 评论列表

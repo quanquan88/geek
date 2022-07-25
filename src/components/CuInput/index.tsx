@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-29 16:28:16
  * @LastEditors: quan
- * @LastEditTime: 2022-07-15 15:57:22
+ * @LastEditTime: 2022-07-25 16:31:43
  * @Description: file content
  */
 import React, {InputHTMLAttributes, ReactElement, useEffect, useRef} from 'react'
@@ -12,10 +12,10 @@ import classnames from "classnames";
 
 // 类型
 interface Props extends InputHTMLAttributes<HTMLInputElement> {
-    extra?: string | ReactElement,
-    className?: string,
-    onExtraClick?: () => void,
-    autoFocus?: boolean
+    extra?: string | ReactElement;
+    className?: string;
+    onExtraClick?: () => void;
+    autoFocus?: boolean;
 }
 
 export default function CuInput({extra, className, onExtraClick, autoFocus, ...rest}: Props) {
