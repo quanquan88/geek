@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-26 22:00:56
  * @LastEditors: quan
- * @LastEditTime: 2022-05-28 22:58:30
+ * @LastEditTime: 2022-07-27 11:19:28
  * @Description: file content
  */
 import React, { Suspense } from 'react'
@@ -16,6 +16,7 @@ import classNames from "classnames";
 import { Route, Switch, useHistory, useLocation } from 'react-router-dom'
 // 权限
 import AuthRoute from "@/components/AuthRoute/AuthRoute";
+import KeepAlive from '@/components/KeepAlive';
 
 // 组件
 const Home = React.lazy(() => import('@/view/Home'))
@@ -29,7 +30,7 @@ export default function Layout() {
         {
             title: '首页',
             icon: 'iconbtn_home',
-            path: '/home'
+            path: '/home/index'
         },
         {
             title: '问答',
@@ -59,8 +60,9 @@ export default function Layout() {
                 {/* 区域一：点击按钮切换显示内容的区域 */}
                 <div className="tab-content">
                     <Suspense fallback={<div>加载中...</div>}>
+                            {/* <Route path="/home" exact component={Home}/> */}
+                            <KeepAlive alivePath='/home/index' path='/home/index' component={Home} exact></KeepAlive>
                         <Switch>
-                            <Route path="/home" exact component={Home}/>
                             <Route path="/home/question" component={Question}/>
                             <Route path="/home/video" component={Video}/>
                             <AuthRoute path="/home/profile" component={Profile}/>

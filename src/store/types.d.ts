@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-14 14:20:08
  * @LastEditors: quan
- * @LastEditTime: 2022-07-26 11:46:40
+ * @LastEditTime: 2022-07-27 10:14:20
  * @Description: file content
  */
 // user类型
@@ -144,6 +144,9 @@ export type ArtActionType = {
     payload: CommentsListType
 } | {
     type: 'article/saveNewComment',
+    payload: CommentType
+} | {
+    type: 'article/updateComment',
     payload: CommentType
 }
 // 评论消息类型

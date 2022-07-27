@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-22 17:04:02
  * @LastEditors: quan
- * @LastEditTime: 2022-07-26 16:55:58
+ * @LastEditTime: 2022-07-27 10:19:14
  * @Description: file content
  */
 
@@ -129,6 +129,14 @@ export const addComment = (artId: string, content: string): RootThunkAction => {
 const saveNewComment = (payload: CommentType): ArtActionType => {
     return {
         type: 'article/saveNewComment',
+        payload
+    }
+}
+
+// 修改-回复数量
+export const updateComment = (payload: CommentType): ArtActionType => {
+    return {
+        type:'article/updateComment',
         payload
     }
 }

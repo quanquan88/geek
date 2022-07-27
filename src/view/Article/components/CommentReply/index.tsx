@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-26 14:13:31
  * @LastEditors: quan
- * @LastEditTime: 2022-07-26 17:04:13
+ * @LastEditTime: 2022-07-27 10:19:58
  * @Description: file content
  */
 import NavBar from "@/components/NavBar";
@@ -15,6 +15,8 @@ import styles from "./index.module.scss";
 import { CommentsListType, CommentType } from "@/store/types";
 import { addReply, getReplyList } from "@/api/article";
 import {InfiniteScroll, Popup} from 'antd-mobile-v5'
+import { useDispatch } from "react-redux";
+import { updateComment } from "@/store/action/article";
 
 type PropsType = {
   originComment: CommentType,
@@ -29,6 +31,8 @@ type PropsType = {
  * @param {Function} props.onClose 关闭抽屉的回调函数
  */
 const CommentReply = ({ originComment, articleId, onClose }: PropsType) => {
+
+  const dispatch = useDispatch();
   // 评论相关数据
   const [replyList, setReplyList] = useState({} as CommentsListType);
   // 抽屉表单状态
@@ -91,6 +95,10 @@ const CommentReply = ({ originComment, articleId, onClose }: PropsType) => {
       ...replyList,
       results: [res.data.new_obj, ...replyList.results]
     })
+
+    originComment.reply_count++; // 回复加1
+    // 更新评论信息
+    dispatch(updateComment(originComment))
 
     // 关闭
     onCloseComment()

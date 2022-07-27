@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-06-15 21:47:01
  * @LastEditors: quan
- * @LastEditTime: 2022-07-13 10:42:44
+ * @LastEditTime: 2022-07-27 11:11:14
  * @Description: file content
  */
 import {useEffect, useState} from 'react';
@@ -33,7 +33,7 @@ const NotFound = () => {
     // 处理跳转
     useEffect(() => {
         if(time === 0) {
-            history.push('/home')
+            history.push('/home/index')
         }
     }, [time, history])
 
@@ -41,7 +41,7 @@ const NotFound = () => {
         <div>
             <h1>对不起，你访问的内容不存在...</h1>
             <p>
-                {time} 秒后，返回<Link to="/home">首页</Link>
+                {time} 秒后，返回<Link to="/home/index">首页</Link>
             </p>
         </div>
     );

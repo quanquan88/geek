@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-24 22:35:44
  * @LastEditors: quan
- * @LastEditTime: 2022-07-22 16:58:21
+ * @LastEditTime: 2022-07-27 11:20:10
  * @Description: file content
  */
 import React, {Suspense} from 'react'
@@ -13,6 +13,7 @@ import {Router, Route, Switch, Redirect} from 'react-router-dom'
 import AuthRoute from "@/components/AuthRoute/AuthRoute";
 // history
 import history from "@/utils/history";
+import KeepAlive from './components/KeepAlive';
 
 // 首页 React.lazy懒加载
 const Home = React.lazy(() => import('@/view/Layout'))
@@ -37,11 +38,13 @@ export default function App() {
     return (
         <Router history={history}>
             <Suspense fallback={<div>加载中...</div>}>
+                {/* 首页 */}
+                {/* <Route path="/home" component={Home}/> */}
+                <KeepAlive alivePath="/home/index" path="/home/index" component={Home} exact></KeepAlive>
+                
                 <Switch>
                     {/* 重定向 */}
-                    <Redirect exact from='/' to="/home"/>
-                    {/* 首页 */}
-                    <Route path="/home" component={Home}/>
+                    <Redirect exact from='/' to="/home/index"/>
                     {/* 登录 */}
                     <Route path="/login" component={Login}/>
                     <Route path="/search" exact component={Search}/>
@@ -56,7 +59,11 @@ export default function App() {
                     {/* 用户反馈 */}
                     <AuthRoute path="/profile/feedback" component={Feedback} />
 
-                    <Route component={NotFound}/>
+                    <Route render={props => {
+                        if(!props.location.pathname.startsWith('/home')) {
+                            return <NotFound />
+                        }
+                    }} />
                 </Switch>
             </Suspense>
         </Router>

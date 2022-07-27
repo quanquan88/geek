@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-26 22:01:01
  * @LastEditors: quan
- * @LastEditTime: 2022-07-13 17:45:32
+ * @LastEditTime: 2022-07-27 11:18:32
  * @Description: file content
  */
 import React, {useState} from 'react'
@@ -113,7 +113,7 @@ export default function Login() {
         history.replace(location.state.from)
       }else {
         // 跳转首页
-        history.push('/home')
+        history.push('/home/index')
       }
     },
     // 校验
