@@ -2,13 +2,13 @@
  * @Author: quan
  * @Date: 2022-07-22 16:38:17
  * @LastEditors: quan
- * @LastEditTime: 2022-07-25 17:32:51
+ * @LastEditTime: 2022-07-26 15:55:45
  * @Description: file content
  */
 import Icon from "@/components/Icon";
 import NavBar from "@/components/NavBar";
 import { RootState } from "@/store";
-import { getArticleDetails, getCommentList, getMoreCommentList } from "@/store/action/article";
+import { addComment, getArticleDetails, getCommentList, getMoreCommentList } from "@/store/action/article";
 import { useEffect, useRef, useState } from "react";
 import ContentLoader from "react-content-loader";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,15 +17,24 @@ import styles from "./index.module.scss";
 import classnames from 'classnames';
 import DOMPurify from 'dompurify';
 import throttle from 'lodash/throttle'; // 节流
-import NoComment from './components/NoComment'
-import CommentItem from './components/CommentItem'
-import { InfiniteScroll } from 'antd-mobile-v5'
-import CommentFooter from './components/CommentFooter'
-import Sticky from '@/components/Sticky'
+import NoComment from './components/NoComment';
+import CommentItem from './components/CommentItem';
+import { InfiniteScroll, Popup } from 'antd-mobile-v5';
+import CommentFooter from './components/CommentFooter';
+import Sticky from '@/components/Sticky';
+import Share from '@/components/Share';
+import CommentInput from './components/CommentInput'
+import CommentReply from './components/CommentReply'
+import { CommentType } from "@/store/types";
 
 // params参数类型
 type ParamsTyps = {
 	id: string
+}
+// 回复组件配置类型
+type CommentReplyType = {
+  visible: boolean,
+  originComment: CommentType
 }
 
 const Article = () => {
@@ -38,6 +47,16 @@ const Article = () => {
   const commentRef = useRef<HTMLDivElement>(null); // 评论区顶部元素
   const comments = useSelector((state: RootState) => state.article.comments); // 评论列表
   const hasMore = comments.last_id !== comments.end_id; // 是否还有更多内容
+  const [visible, setVisible] = useState<boolean>(false); // 弹出框 显隐状态
+  // 评论组件-状态
+  const [commentSetting, setCommentSetting] = useState({
+    visible: false
+  }); 
+  // 回复组件-状态
+  const [commentReply, setCommentReply] = useState<CommentReplyType>({
+    visible: false, // 显隐状态
+    originComment: {}, // 原评论
+  } as CommentReplyType);
 
 	useEffect(() => {
 		// 请求
@@ -76,6 +95,26 @@ const Article = () => {
     // 获取元素距离顶部的高度
     const top = commentRef.current!.offsetTop
     window.scrollTo(0, top)
+  }
+
+  // 点击分享
+  const showShare = () => {
+    setVisible(true);
+  }
+  // 关闭分享
+  const onCloseShare = () => {
+    setVisible(false);
+  }
+
+  // 点击发表的回调
+  const onPublish = (val: string) => {
+    // 请求
+    dispatch(addComment(artDetails.art_id, val));
+    
+    // 关闭
+    setCommentSetting({
+      visible: false
+    })
   }
 
   return (
@@ -174,7 +213,13 @@ const Article = () => {
                         comments.results && comments.results.map(item => {
                           return (
                             <div key={item.com_id}>
-                              <CommentItem comments={item}></CommentItem>
+                              <CommentItem
+                                comments={item} 
+                                onClickReply={() => setCommentReply({
+                                  visible: true,
+                                  originComment: item
+                                })} 
+                              />
                             </div>
                           )
                         })
@@ -184,7 +229,13 @@ const Article = () => {
                 }
 
                 {/* 操作 */}
-                <CommentFooter goComment={goComment}></CommentFooter>
+                <CommentFooter 
+                  goComment={goComment}
+                  onClickShare={showShare}
+                  onClickInput={() => setCommentSetting({
+                    visible: true
+                  })}
+                ></CommentFooter>
 
                 {/* 加载更多 */}
                 <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
@@ -194,6 +245,64 @@ const Article = () => {
           </>
         )}
       </div>
+
+      {/* 分享弹出框 */}
+      <Popup
+        visible={visible}
+        position="bottom"
+        onMaskClick={onCloseShare}
+      >
+        <Share onClose={onCloseShare}></Share>
+      </Popup>
+
+      {/* 添加评论 */}
+      <Popup 
+        visible={commentSetting.visible}
+        onMaskClick={() => setCommentSetting({
+          visible: false
+        })}
+        position="left" 
+        bodyStyle={{
+          width: '100%'
+        }}
+      >
+        {
+          commentSetting.visible && (
+            <CommentInput 
+              onClose={() => setCommentSetting({
+                visible: false
+              })} 
+              onComment={onPublish}
+            />
+          )
+        }
+      </Popup>
+
+      {/* 回复组件 */}
+      <Popup
+        visible={commentReply.visible}
+        onMaskClick={() => setCommentReply({
+          visible: false,
+          originComment: {}
+        } as CommentReplyType)}
+        position={"left"}
+        bodyStyle={{
+          width: '100%'
+        }}
+      >
+        {
+          commentReply.visible && (
+            <CommentReply
+              originComment={commentReply.originComment}
+              articleId={artDetails.art_id}
+              onClose={() => setCommentReply({
+                visible: false,
+                originComment: {}
+              } as CommentReplyType)}
+            />
+          )
+        }
+      </Popup>
     </div>
   );
 };

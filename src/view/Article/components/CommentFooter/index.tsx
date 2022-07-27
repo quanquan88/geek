@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-24 15:51:20
  * @LastEditors: quan
- * @LastEditTime: 2022-07-24 21:45:32
+ * @LastEditTime: 2022-07-26 16:00:11
  * @Description: file content
  */
 import Icon from '@/components/Icon'
@@ -13,15 +13,21 @@ import { useDispatch, useSelector } from 'react-redux'
 import styles from './index.module.scss'
 
 type PropsType = {
-  goComment?: () => void
+  goComment?: () => void,
+  onClickShare?: () => void,
+  onClickInput?: () => void,
+  type?: string
 }
+
 /**
- * 评论工具栏组件
+ * 
+ * @param goComment 点击评论回调
+ * @param onClickShare 点击分享回调
+ * @param onClickInput 点击表单回调
  */
-const CommentFooter = ({ goComment }: PropsType) => {
+const CommentFooter = ({ goComment, onClickShare, onClickInput, type = 'normal' }: PropsType) => {
 
   const info = useSelector((state: RootState) => state.article.info); // 文章详情数据
-  const type = 'normal';
   const dispatch = useDispatch();
 
   // 点赞
@@ -37,7 +43,7 @@ const CommentFooter = ({ goComment }: PropsType) => {
   return (
     <div className={styles.root}>
       {/* 输入框（是个假的输入框，其实就是个按钮） */}
-      <div className="input-btn">
+      <div className="input-btn" onClick={onClickInput}>
         <Icon type="iconbianji" />
         <span>抢沙发</span>
       </div>
@@ -66,7 +72,7 @@ const CommentFooter = ({ goComment }: PropsType) => {
       </div>
 
       {/* 分享按钮 */}
-      <div className="action-item">
+      <div className="action-item" onClick={onClickShare}>
         <Icon type="iconbtn_share" />
         <p>分享</p>
       </div>

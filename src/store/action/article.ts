@@ -2,13 +2,13 @@
  * @Author: quan
  * @Date: 2022-07-22 17:04:02
  * @LastEditors: quan
- * @LastEditTime: 2022-07-24 21:11:47
+ * @LastEditTime: 2022-07-26 16:55:58
  * @Description: file content
  */
 
 import http from "@/utils/request"
 import { RootThunkAction } from ".."
-import { ArtActionType, ArtDetailsType, CommentsListType } from "../types";
+import { ArtActionType, ArtDetailsType, CommentsListType, CommentType } from "../types";
 
 
 // 请求-获取文章详情
@@ -102,5 +102,33 @@ export const collectArticle = (artId: string, collect: boolean): RootThunkAction
 
         // 更新数据
         dispatch(getArticleDetails(artId))
+    }
+}
+
+// 返回类型
+export type addCommentResType = {
+    com_id: string,
+    new_obj: CommentType,
+    target: string
+}
+// 请求-发表
+export const addComment = (artId: string, content: string): RootThunkAction => {
+    return async dispatch => {
+        const res = await http.post<addCommentResType>('/comments', {
+            target: artId,
+            content
+        })
+
+        // console.log(res);
+        dispatch(saveNewComment(res.data.new_obj))
+        // 更新数据
+        dispatch(getArticleDetails(artId))
+    }
+}
+// 储存-发表的评论
+const saveNewComment = (payload: CommentType): ArtActionType => {
+    return {
+        type: 'article/saveNewComment',
+        payload
     }
 }

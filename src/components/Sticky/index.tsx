@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-25 16:42:40
  * @LastEditors: quan
- * @LastEditTime: 2022-07-25 17:51:31
+ * @LastEditTime: 2022-07-26 09:03:23
  * @Description: file content
  */
 import throttle from 'lodash/fp/throttle'; // 节流
@@ -29,8 +29,8 @@ const Sticky = ({ offset = 0, children }: PropsType) => {
     // 换算得到offset 公式：offset / 375 = x / 当前的屏幕宽度
     const offsetVal = offset / 375 * document.documentElement.clientWidth;
 
-    const placeholderDOM = placeholderRef.current!
-    const containerDOM = containerRef.current!
+    const placeholderDOM = placeholderRef.current!;
+    const containerDOM = containerRef.current!;
 
     // 滚动事件监听函数
     const onScroll = throttle(60, () => {

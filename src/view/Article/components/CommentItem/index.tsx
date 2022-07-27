@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-07-23 21:48:38
  * @LastEditors: quan
- * @LastEditTime: 2022-07-23 22:35:33
+ * @LastEditTime: 2022-07-26 15:56:30
  * @Description: file content
  */
 import Icon from '@/components/Icon'
@@ -11,19 +11,19 @@ import { CommentType } from '@/store/types'
 import styles from './index.module.scss'
 import dayjs from 'dayjs'
 
-
-
-
-
 // 传输类型
 type PropsType = {
-    comments: CommentType
+    comments: CommentType,
+    onClickReply?: () => void,
+    type?: string
 }
 
 /**
- * 评论项组件
+ * 评论组件
+ * @param comments 评论数据 
+ * @param onClickReply 点击回复回调 
  */
-const CommentItem = ({comments}: PropsType) => {
+const CommentItem = ({comments, onClickReply, type = 'normal'}: PropsType) => {
   return (
     <div className={styles.root}>
 
@@ -59,14 +59,14 @@ const CommentItem = ({comments}: PropsType) => {
 
         <div className="comment-footer">
           {/* 回复按钮 */}
-          {/* {type === 'normal' && (
-            <span className="replay" onClick={() => onOpenReply(commentId)}>
-              {replyCount === 0 ? '' : replyCount}回复 <Icon type="iconbtn_right" />
-            </span>
-          )} */}
-          <span className="replay">
-            {comments.reply_count === 0 ? '' : comments.reply_count}回复 <Icon type="iconbtn_right" />
-          </span>
+          {
+            type === 'normal' && (
+              <span className="replay" onClick={onClickReply}>
+                {comments.reply_count === 0 ? '' : comments.reply_count}回复<Icon type="iconbtn_right" />
+              </span>
+            )
+          }
+          
 
           {/* 评论日期 */}
           <span className="comment-time">{dayjs(comments.pubdate).fromNow()}</span>
