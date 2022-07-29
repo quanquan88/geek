@@ -24,6 +24,13 @@ type PropsType = {
  * @param onClickReply 点击回复回调 
  */
 const CommentItem = ({comments, onClickReply, type = 'normal'}: PropsType) => {
+
+  // 点赞
+  const onLike = async () => {
+    console.log("点赞评论");
+    
+  }
+
   return (
     <div className={styles.root}>
 
@@ -48,7 +55,7 @@ const CommentItem = ({comments, onClickReply, type = 'normal'}: PropsType) => {
               {isFollowed ? '已关注' : '关注'}
             </span>
           )} */}
-          <span className="thumbs-up">
+          <span className="thumbs-up" onClick={onLike}>
             {comments.like_count} 
             <Icon type={comments.is_liking ? 'iconbtn_like_sel' : 'iconbtn_like2'} />
           </span>

@@ -2,7 +2,7 @@
  * @Author: quan
  * @Date: 2022-05-24 22:35:44
  * @LastEditors: quan
- * @LastEditTime: 2022-07-27 11:20:10
+ * @LastEditTime: 2022-07-29 11:54:40
  * @Description: file content
  */
 import React, {Suspense} from 'react'
@@ -40,7 +40,7 @@ export default function App() {
             <Suspense fallback={<div>加载中...</div>}>
                 {/* 首页 */}
                 {/* <Route path="/home" component={Home}/> */}
-                <KeepAlive alivePath="/home/index" path="/home/index" component={Home} exact></KeepAlive>
+                <KeepAlive alivePath="/home" path="/home" component={Home} exact></KeepAlive>
                 
                 <Switch>
                     {/* 重定向 */}
